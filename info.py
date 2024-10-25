@@ -43,7 +43,7 @@ class evamaria(Client):
 SESSION = environ.get('SESSION', 'Media_search')
 API_ID = int(environ.get('API_ID', '12618934'))
 API_HASH = environ.get('API_HASH', '49aacd0bc2f8924add29fb02e20c8a16')
-BOT_TOKEN = environ['BOT_TOKEN']
+BOT_TOKEN = environ['7955983025:AAGjZCRXcuNzqWoJvdZp3s5UmjTJ2m2L0s4']
 
 # Bot settings
 CACHE_TIME = int(environ.get('CACHE_TIME', 600))
@@ -57,7 +57,7 @@ MELCOW_IMG = environ.get('MELCOW_IMG',"https://telegra.ph/file/e54cae941b9b81f13
 MELCOW_VID = environ.get('MELCOW_VID',"")
 
 # Admins, Channels & Users
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1509123054 1297128957').split()]
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '5032034594').split()]
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '0').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
@@ -73,10 +73,10 @@ TMP_DOWNLOAD_DIRECTORY = environ.get("TMP_DOWNLOAD_DIRECTORY", "./DOWNLOADS/")
 COMMAND_HAND_LER = environ.get("COMMAND_HAND_LER", "/")
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://AutoFilterv5:AutoFilterv5@cluster0.b6kjcpc.mongodb.net/")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://farook:farook@cluster0.dmaou.mongodb.net/")
 DATABASE_NAME = environ.get('DATABASE_NAME', "AutoFilterv5")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
-MONGO_URL = os.environ.get('MONGO_URL', "")
+MONGO_URL = os.environ.get('MONGO_URL', "mongodb+srv://pcmovies:pcmovies@cluster0.4vv9ebl.mongodb.net/?retryWrites=true&w=majority")
 
 #Downloader
 DOWNLOAD_LOCATION = environ.get("DOWNLOAD_LOCATION", "./DOWNLOADS/AudioBoT/")
@@ -98,11 +98,11 @@ DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in enviro
 PORT = os.environ.get("PORT", "8080")
 MAX_BTN = int(environ.get('MAX_BTN', "7"))
 S_GROUP = environ.get('S_GROUP')
-MAIN_CHANNEL = environ.get('MAIN_CHANNEL' "-1002062020127")
+MAIN_CHANNEL = environ.get('MAIN_CHANNEL' "-1002399568031")
 FILE_FORWARD = environ.get('FILE_FORWARD')
 MSG_ALRT = environ.get('MSG_ALRT', '𝑪𝑯𝑬𝑪𝑲 & 𝑻𝑹𝒀 𝑨𝑳𝑳 𝑴𝒀 𝑭𝑬𝑨𝑻𝑼𝑹𝑬𝑺')
 FILE_CHANNEL = int(environ.get('FILE_CHANNEL', '0'))
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002062020127'))                           
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002399568031'))                           
 SUPPORT_CHAT = environ.get('SUPPORT_CHAT', '')
 AUTO_DELETE = is_enabled((environ.get('AUTO_DELETE', "True")), True)
 P_TTI_SHOW_OFF = is_enabled((environ.get('P_TTI_SHOW_OFF', "False")), False)
