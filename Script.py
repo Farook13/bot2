@@ -11,7 +11,7 @@ async def intro(client: Client, message: Message):
         "- Search files from a MongoDB database.\n"
         "- Force subscribe to access bot features.\n"
         "- Utility options for a smooth experience.\n\n"
-        f"My creator is a cool person with Telegram ID: {}. "
+        f"My creator is a cool person with Telegram ID:@Faroo_bruh . "
         "Say hi to them if you get a chance!"
     )
     await message.reply_text(intro_text)
