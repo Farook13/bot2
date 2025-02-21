@@ -1,79 +1,59 @@
+import os
 from pyrogram import Client, filters
-from config import Config
-from handlers import start, filter, admin
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from config import BOT_TOKEN, AUTH_CHANNEL, LOG_CHANNEL, OWNER_ID
+from database import Database
+from utils import check_force_sub
 
-class AutoFilterBot(Client):
-    def __init__(self):
-        super().__init__(
-            "AutoFilterBot",
-            api_id=Config.API_ID,
-            api_hash=Config.API_HASH,
-            bot_token=Config.BOT_TOKEN
+# Initialize the bot
+app = Client("AutoFilterBot", bot_token=BOT_TOKEN)
+
+# MongoDB instance
+db = Database()
+
+# Start command
+@app.on_message(filters.command("start") & filters.private)
+async def start(client: Client, message: Message):
+    user_id = message.from_user.id
+    # Check if user is subscribed
+    if not await check_force_sub(client, user_id):
+        await message.reply_text(
+            "Please join our channel to use this bot!",
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("Join Channel", url=f"https://t.me/{AUTH_CHANNEL[4:]}")]]
+            )
         )
-        self._register_handlers()
+        return
+    
+    await message.reply_text(
+        "Welcome to the AutoFilter Bot! Send me a query to search for files."
+    )
+    # Log user activity
+    await client.send_message(LOG_CHANNEL, f"User {user_id} started the bot.")
 
-    def _register_handlers(self):
-        """Register all message handlers."""
-        @self.on_message(filters.command("start"))
-        async def start_cmd(client, message):
-            await start.start_command(client, message)
-
-        @self.on_message(filters.text & ~filters.command(["start", "add", "delete"]))
-        async def filter_cmd(client, message):
-            await filter.filter_handler(client, message)
-
-        @self.on_message(filters.command("add"))
-        async def add_file_cmd(client, message):
-            await admin.add_file(client, message)
-
-        @self.on_message(filters.command("delete"))
-        async def delete_file_cmd(client, message):
-            await admin.delete_file(client, message)
-class AutoFilterBot(Client):
-    def __init__(self):
-        self._validate_config()
-        super().__init__(
-            "AutoFilterBot",
-            api_id=Config.API_ID,
-            api_hash=Config.API_HASH,
-            bot_token=Config.BOT_TOKEN
+# Autofilter functionality
+@app.on_message(filters.text & filters.private)
+async def autofilter(client: Client, message: Message):
+    user_id = message.from_user.id
+    if not await check_force_sub(client, user_id):
+        await message.reply_text(
+            "Please join our channel to use this bot!",
+            reply_markup=InlineKeyboardMarkup(
+                [[InlineKeyboardButton("Join Channel", url=f"https://t.me/{AUTH_CHANNEL[4:]}")]]
+            )
         )
-        self._register_handlers()
+        return
+    
+    query = message.text
+    results = db.search_files(query)
+    if results:
+        response = "Here are the files I found:\n\n"
+        for idx, result in enumerate(results, 1):
+            response += f"{idx}. {result['file_name']} - [Link]({result['file_link']})\n"
+        await message.reply_text(response, disable_web_page_preview=True)
+    else:
+        await message.reply_text("No files found for your query.")
 
-    def _validate_config(self):
-        required = {
-            "BOT_TOKEN": Config.BOT_TOKEN,
-            "API_ID": Config.API_ID,
-            "API_HASH": Config.API_HASH,
-            "MONGODB_URI": Config.MONGODB_URI
-        }
-        missing = [key for key, value in required.items() if not value]
-        if missing:
-            raise ValueError(f"Missing required config: {', '.join(missing)}")
-    def start_bot(self):
-        """Start the bot."""
-        print("Bot starting...")
-        self.run()
-class AutoFilterBot(Client):
-    def __init__(self):
-        super().__init__(
-            "AutoFilterBot",
-            api_id=Config.API_ID,
-            api_hash=Config.API_HASH,
-            bot_token=Config.BOT_TOKEN
-        )
-        self.is_running = False
-        self._register_handlers()
-
-    def start_bot(self):
-        print("Bot starting...")
-        self.is_running = True
-        self.run()
-        self.is_running = False
-
-    def stop_bot(self):
-        if self.is_running:
-            self.stop()
-            print("Bot stopped...")
-# Singleton instance
-bot_instance = AutoFilterBot()
+# Run the bot
+if __name__ == "__main__":
+    app.run()
