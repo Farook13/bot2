@@ -2,7 +2,7 @@ import os
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from info import BOT_TOKEN, AUTH_CHANNEL, LOG_CHANNEL, OWNER_ID
-from connections_mdb import Database
+from sample_info import Database
 from utils import check_force_sub
 
 # Initialize the bot
