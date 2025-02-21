@@ -29,7 +29,27 @@ class AutoFilterBot(Client):
         @self.on_message(filters.command("delete"))
         async def delete_file_cmd(client, message):
             await admin.delete_file(client, message)
+class AutoFilterBot(Client):
+    def __init__(self):
+        self._validate_config()
+        super().__init__(
+            "AutoFilterBot",
+            api_id=Config.API_ID,
+            api_hash=Config.API_HASH,
+            bot_token=Config.BOT_TOKEN
+        )
+        self._register_handlers()
 
+    def _validate_config(self):
+        required = {
+            "BOT_TOKEN": Config.BOT_TOKEN,
+            "API_ID": Config.API_ID,
+            "API_HASH": Config.API_HASH,
+            "MONGODB_URI": Config.MONGODB_URI
+        }
+        missing = [key for key, value in required.items() if not value]
+        if missing:
+            raise ValueError(f"Missing required config: {', '.join(missing)}")
     def start_bot(self):
         """Start the bot."""
         print("Bot starting...")
