@@ -34,6 +34,26 @@ class AutoFilterBot(Client):
         """Start the bot."""
         print("Bot starting...")
         self.run()
+class AutoFilterBot(Client):
+    def __init__(self):
+        super().__init__(
+            "AutoFilterBot",
+            api_id=Config.API_ID,
+            api_hash=Config.API_HASH,
+            bot_token=Config.BOT_TOKEN
+        )
+        self.is_running = False
+        self._register_handlers()
 
+    def start_bot(self):
+        print("Bot starting...")
+        self.is_running = True
+        self.run()
+        self.is_running = False
+
+    def stop_bot(self):
+        if self.is_running:
+            self.stop()
+            print("Bot stopped...")
 # Singleton instance
 bot_instance = AutoFilterBot()
