@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from config import DATABASE_URI, DATABASE_NAME
+from info import DATABASE_URI, DATABASE_NAME
 
 class Database:
     def __init__(self):
