@@ -1,22 +1,16 @@
-# Bot information
-SESSION = 'Media_search'
-USER_SESSION = 'User_Bot'
-API_ID = 12345
-API_HASH = '0123456789abcdef0123456789abcdef'
-BOT_TOKEN = '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11'
-USERBOT_STRING_SESSION = ''
+from pymongo import MongoClient
+from config import DATABASE_URI, DATABASE_NAME
 
-# Bot settings
-CACHE_TIME = 600
-USE_CAPTION_FILTER = False
+class Database:
+    def __init__(self):
+        self.client = MongoClient(DATABASE_URI)
+        self.db = self.client[DATABASE_NAME]
+        self.files_collection = self.db["files"]
 
-# Admins, Channels & Users
-ADMINS = [12345789, 'admin123', 98765432]
-CHANNELS = [-10012345678, -100987654321, 'channelusername']
-AUTH_USERS = []
-AUTH_CHANNEL = None
+    def add_file(self, file_name: str, file_link: str):
+        """Add a file to the database."""
+        self.files_collection.insert_one({"file_name": file_name, "file_link": file_link})
 
-# MongoDB information
-DATABASE_URI = "mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[defaultauthdb]?retryWrites=true&w=majority"
-DATABASE_NAME = 'Telegram'
-COLLECTION_NAME = 'channel_files'  # If you are using the same database, then use different collection name for each bot
+    def search_files(self, query: str):
+        """Search files in the database."""
+        return list(self.files_collection.find({"file_name": {"$regex": query, "$options": "i"}}))
