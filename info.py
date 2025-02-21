@@ -3,7 +3,7 @@ from os import environ,getenv
 from Script import script
 
 # Telegram Bot Token from @BotFather
-BOT_TOKEN = os.getenv("7857321740:AAEtcoE9BbLGCaF5TlkeGvhLZpXU36vco8E")
+BOT_TOKEN = environ.get('BOT_TOKEN',"7857321740:AAEtcoE9BbLGCaF5TlkeGvhLZpXU36vco8E")
 
 # Telegram API ID and Hash from my.telegram.org
 API_ID = int(environ.get('API_ID', '12618934'))
