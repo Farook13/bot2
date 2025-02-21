@@ -1,7 +1,5 @@
 from pyrogram import Client, filters
-from info import BOT_TOKEN, OWNER_ID
 
-app = Client("AutoFilterBot", bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("intro") & filters.private)
 async def intro(client: Client, message: Message):
