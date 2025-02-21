@@ -1,4 +1,6 @@
-import os
+import re
+from os import environ,getenv
+from Script import script
 
 # Telegram Bot Token from @BotFather
 BOT_TOKEN = os.getenv("7857321740:AAEtcoE9BbLGCaF5TlkeGvhLZpXU36vco8E")
