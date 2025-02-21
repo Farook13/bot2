@@ -1,7 +1,7 @@
 import os
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from config import BOT_TOKEN, AUTH_CHANNEL, LOG_CHANNEL, OWNER_ID
+from info import BOT_TOKEN, AUTH_CHANNEL, LOG_CHANNEL, OWNER_ID
 from database import Database
 from utils import check_force_sub
 
