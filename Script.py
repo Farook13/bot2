@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from config import BOT_TOKEN, OWNER_ID
+from info import BOT_TOKEN, OWNER_ID
 
 app = Client("AutoFilterBot", bot_token=BOT_TOKEN)
 
